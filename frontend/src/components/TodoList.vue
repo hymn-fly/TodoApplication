@@ -25,12 +25,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-
-interface item {
-    id: number,
-    title: string,
-    done: boolean
-}
+import { item } from '@/types/base-type'
 
 @Component
 export default class TodoList extends Vue {

@@ -52,21 +52,26 @@
 import TodoList from './components/TodoList.vue'
 import TodoInput from './components/TodoInput.vue'
 import { Component, Vue } from 'vue-property-decorator'
-
-interface item {
-    id: number,
-    title: string,
-    done: boolean
-}
+import { item } from './types/base-type'
+import TodoApi from '@/lib/todo-api'
 
 @Component({ components: { TodoList, TodoInput } })
 export default class App extends Vue {
   private count = 0;
-  public items: item[] = [];
+  public items: item[] = []
+
+  mounted () {
+    TodoApi.getTodoList().then(result => {
+      this.items = result
+    })
+  }
 
   public addItem (title: string) {
-    this.items.push({ id: this.count++, title: title, done: false })
-    console.log(this.items)
+    TodoApi.createTodo(title)
+    // TODO : list 최신화가 되지 않음
+    TodoApi.getTodoList().then(result => {
+      this.items = result
+    })
   }
 }
 </script>
