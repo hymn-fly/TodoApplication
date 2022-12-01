@@ -40,7 +40,7 @@ public class JwtTokenProvider {
             DecodedJWT decodedJWT = verifier.verify(token);
             return decodedJWT.getClaim("userId").toString();
         } catch (JWTVerificationException exception) {
-            throw new IllegalArgumentException("JWT 토큰 시그니쳐가 유효하지 않습니다");
+            throw new IllegalArgumentException("JWT Verify 예외 발생", exception);
         }
     }
 }
