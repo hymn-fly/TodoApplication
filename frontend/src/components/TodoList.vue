@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { TodoApi } from '@/lib/todo-api'
+
 export default {
   props: ['items'],
   methods: {
@@ -32,7 +34,8 @@ export default {
     },
 
     deleteItem (item) {
-      const idx = this.items.findIndex((itemElem) => itemElem.id === item.id)
+      const idx = this.items.findIndex((itemElem) => itemElem.itemId === item.itemId)
+      TodoApi.DELETE(item.itemId)
       // eslint-disable-next-line
       this.items.splice(idx, 1)
     },

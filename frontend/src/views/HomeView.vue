@@ -10,7 +10,7 @@
 <script>
 import TodoInputVue from '@/components/TodoInput.vue'
 import TodoListVue from '@/components/TodoList.vue'
-import TodoApi from '@/lib/todo-api'
+import { TodoApi } from '@/lib/todo-api'
 
 export default {
   name: 'HomeView',
@@ -25,14 +25,14 @@ export default {
   },
 
   mounted () {
-    TodoApi.getTodoList().then(result => {
+    TodoApi.GET().then(result => {
       this.items = result
     })
   },
 
   methods: {
     addItem (title) {
-      TodoApi.createTodo(title)
+      TodoApi.POST(title)
         .then(result => this.items.push(result))
     }
   }

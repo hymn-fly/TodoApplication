@@ -19,6 +19,7 @@ export default {
   methods: {
     addItem () {
       if (this.content !== '') {
+        console.log('addItem called')
         this.$emit('addItem', this.content)
       }
     },
