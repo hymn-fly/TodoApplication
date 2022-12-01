@@ -41,13 +41,30 @@
       "node": true
     },
     "extends": [
+      "eslint:recommended",
       "plugin:vue/essential",
-      "@vue/standard"
+      "prettier",
+      "plugin:prettier/recommended"
     ],
+    "plugins": ["prettier"],
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "semi": true,
+          "useTabs": true,
+          "tabWidth": 2,
+          "trailingComma": "all",
+          "printWidth": 80,
+          "bracketSpacing": true,
+          "arrowParens": "avoid"
+        }
+      ]
+    }
   },
   "browserslist": [
     "> 1%",
