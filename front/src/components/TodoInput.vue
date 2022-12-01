@@ -8,8 +8,25 @@
 
 <script>
 export default {
-  name: 'TodoInput'
+  name: 'TodoInput',
 
+  data () {
+    return {
+      content: ''
+    }
+  },
+
+  methods: {
+    addItem () {
+      if (this.content !== '') {
+        this.$emit('addItem', this.content)
+      }
+    },
+
+    clearInput () {
+      this.content = ''
+    }
+  }
 }
 </script>
 
