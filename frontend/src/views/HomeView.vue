@@ -1,5 +1,5 @@
 <template>
-	<h1 v-if="loading">로딩중 ...</h1>
+	<loading-vue v-if="loading"></loading-vue>
 	<v-container v-else>
 		<v-app-bar color="deep-purple accent-4" dark elevation="10">
 			<v-toolbar-title>Get the work done</v-toolbar-title>
@@ -16,6 +16,7 @@
 <script>
 import TodoInputVue from '@/components/TodoInput.vue';
 import TodoListVue from '@/components/TodoList.vue';
+import LoadingVue from '@/components/Loading.vue';
 import { TodoApi } from '@/lib/todo-api';
 
 export default {
@@ -23,6 +24,7 @@ export default {
 	components: {
 		TodoInputVue,
 		TodoListVue,
+		LoadingVue,
 	},
 
 	data() {
