@@ -16,18 +16,16 @@ public class JwtTokenProvider {
 
     private final Algorithm algorithm;
 
-    private final long expiresAt;
-
     private final JWTVerifier verifier;
 
     public JwtTokenProvider(JwtConfigure jwtConfigure) {
         this.jwtConfigure = jwtConfigure;
         this.algorithm = Algorithm.HMAC256(this.jwtConfigure.getSecretKey());
-        this.expiresAt = new Date().getTime() + jwtConfigure.getExpirySeconds() * 1000L;
         this.verifier = JWT.require(algorithm).withIssuer(jwtConfigure.getIssuer()).build();
     }
 
     public String createToken(Integer userId) {
+        long expiresAt = new Date().getTime() + jwtConfigure.getExpirySeconds() * 1000L;
         return JWT.create()
                 .withIssuer(jwtConfigure.getIssuer())
                 .withExpiresAt(new Date(expiresAt))
