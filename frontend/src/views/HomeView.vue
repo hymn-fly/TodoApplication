@@ -1,6 +1,6 @@
 <template>
-	<!-- <h1 v-if="loading">로딩중 ...</h1> -->
-	<v-container>
+	<h1 v-if="loading">로딩중 ...</h1>
+	<v-container v-else>
 		<v-app-bar color="deep-purple accent-4" dark elevation="10">
 			<v-toolbar-title>Get the work done</v-toolbar-title>
 			<v-spacer></v-spacer>
@@ -28,6 +28,7 @@ export default {
 	data() {
 		return {
 			items: [],
+			loading: true,
 		};
 	},
 
@@ -35,6 +36,7 @@ export default {
 		TodoApi.GET().then(result => {
 			this.items = result;
 		});
+		this.loading = false;
 	},
 
 	methods: {
