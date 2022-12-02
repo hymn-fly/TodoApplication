@@ -55,16 +55,20 @@ const TodoApi = {
 	},
 
 	SignIn: async function signin(userDto) {
-		apiService.post('/signin', userDto).then(response => {
-			if (response.data.token) {
-				sessionStorage.setItem(STORAGE_TOKEN_KEY, response.data.token);
-				window.location.href = ROOT_URL;
-			}
-		});
+		const res = await apiService.post('/signin', userDto);
+		if (res.data.token) {
+			sessionStorage.setItem(STORAGE_TOKEN_KEY, res.data.token);
+			window.location.href = ROOT_URL;
+		}
 	},
 
 	SignOut: function signOut() {
 		sessionStorage.removeItem(STORAGE_TOKEN_KEY);
+		window.location.href = LOGIN_URL;
+	},
+
+	SignUp: async function signUp(userDto) {
+		await apiService.post('/signup', userDto);
 		window.location.href = LOGIN_URL;
 	},
 };
