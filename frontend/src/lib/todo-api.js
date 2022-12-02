@@ -7,20 +7,24 @@ const apiService = axios.create({
 	timeout: 1000,
 });
 
+const STORAGE_TOKEN_KEY = 'ACCESS_TOKEN';
+const ROOT_URL = '/#/';
+const LOGIN_URL = '/#/login';
+
 apiService.interceptors.response.use(
 	function (response) {
 		return response;
 	},
 	function (error) {
 		if (error.response.status === 403) {
-			window.location.href = '/#/login';
+			window.location.href = LOGIN_URL;
 		}
 		return Promise.reject(error);
 	},
 );
 
 const getToken = function () {
-	const token = sessionStorage.getItem('ACCESS_TOKEN');
+	const token = sessionStorage.getItem(STORAGE_TOKEN_KEY);
 	if (token && token !== null) {
 		return `Bearer ${token}`;
 	}
@@ -29,11 +33,9 @@ const getToken = function () {
 
 const TodoApi = {
 	GET: async function getTodoList() {
-		console.log(`Token : ${getToken()}`);
 		const result = await apiService.get('/todo', {
 			headers: { Authorization: getToken() },
 		});
-		console.log(`Get : ${JSON.stringify(result.data)}`);
 		return result.data;
 	},
 
@@ -55,11 +57,15 @@ const TodoApi = {
 	SignIn: async function signin(userDto) {
 		apiService.post('/signin', userDto).then(response => {
 			if (response.data.token) {
-				sessionStorage.setItem('ACCESS_TOKEN', response.data.token);
-				window.location.href = '/#/';
-				alert('token' + response.data.token);
+				sessionStorage.setItem(STORAGE_TOKEN_KEY, response.data.token);
+				window.location.href = ROOT_URL;
 			}
 		});
+	},
+
+	SignOut: function signOut() {
+		sessionStorage.removeItem(STORAGE_TOKEN_KEY);
+		window.location.href = LOGIN_URL;
 	},
 };
 
