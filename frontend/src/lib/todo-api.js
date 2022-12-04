@@ -7,7 +7,7 @@ let apiHost;
 if (hostname === 'localhost') {
 	apiHost = 'http://localhost:8080';
 } else {
-	apiHost = 'http://geuno.ap-northeast-2.elasticbeanstalk.com';
+	apiHost = 'https://api.hymn-fly.com';
 }
 
 const apiService = axios.create({
