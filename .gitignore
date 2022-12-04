@@ -1,4 +1,4 @@
-// frontend
+## frontend
 .DS_Store
 node_modules
 /dist
@@ -23,7 +23,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-// backend
+## backend
 HELP.md
 .gradle
 build/
