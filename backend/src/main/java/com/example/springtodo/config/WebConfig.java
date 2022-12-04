@@ -12,7 +12,10 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOrigins("http://localhost:3000")
+			.allowedOrigins("http://localhost:3000",
+				"http://hymnfly.ap-northeast-2.elasticbeanstalk.com",
+				"http://app.hymn-fly.com",
+				"https://app.hymn-fly.com")
 			.allowedMethods("*")
 			.allowCredentials(true)
 			.maxAge(MAX_AGE_SECS);
