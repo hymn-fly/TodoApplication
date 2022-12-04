@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-const apiHost = 'http://localhost:8080';
+const hostname = window && window.location && window.location.hostname;
+
+let apiHost;
+
+if (hostname === 'localhost') {
+	apiHost = 'http://localhost:8080';
+} else {
+	apiHost = 'http://geuno.ap-northeast-2.elasticbeanstalk.com';
+}
 
 const apiService = axios.create({
 	baseURL: apiHost,
