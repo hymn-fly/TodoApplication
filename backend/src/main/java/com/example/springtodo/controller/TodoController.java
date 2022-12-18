@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import com.example.springtodo.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
 
+@Validated
 @RestController
 @RequestMapping(path = "/todo")
 @RequiredArgsConstructor
@@ -30,8 +33,7 @@ public class TodoController {
 
 	private final TodoService todoService;
 
-	// TODO: 2022/11/24 Input Validation logic 추가 (Bean Validation)
-	// TODO: 2022/11/24 response의 형태 맞추기(새로운 객체 생성해서 -  eg.ResponseDto) 
+	// TODO: 2022/11/24 response의 형태 맞추기(새로운 객체 생성해서 -  eg.ResponseDto)
 	@GetMapping
 	public List<TodoItemResponse> listItems(@AuthenticationPrincipal String userId) {
 		List<TodoItem> todoItems = todoService.listItem(Integer.valueOf(userId));
@@ -49,7 +51,7 @@ public class TodoController {
 	}
 
 	@PutMapping(path = "/{id}")
-	TodoItemResponse updateItem(@AuthenticationPrincipal String userId, @PathVariable Integer id,
+	TodoItemResponse updateItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id,
 		@Valid @RequestBody TodoItemUpdateRequest request) {
 		TodoItem todoItem = todoService.updateItem(id, Integer.valueOf(userId), request.getTitle());
 
@@ -57,7 +59,7 @@ public class TodoController {
 	}
 
 	@DeleteMapping(path = "/{id}")
-	void deleteItem(@AuthenticationPrincipal String userId, @PathVariable Integer id) {
+	void deleteItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id) {
 		todoService.deleteItem(id, Integer.valueOf(userId));
 	}
 }
