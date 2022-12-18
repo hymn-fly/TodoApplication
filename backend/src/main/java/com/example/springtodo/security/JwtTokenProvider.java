@@ -34,11 +34,11 @@ public class JwtTokenProvider {
     }
 
     public String verifyToken(String token) {
-        try{
+        try {
             DecodedJWT decodedJWT = verifier.verify(token);
             return decodedJWT.getClaim("userId").toString();
         } catch (JWTVerificationException exception) {
-            throw new IllegalArgumentException("JWT Verify 예외 발생", exception);
+            throw new JWTVerificationException("Unauthorized User");
         }
     }
 }

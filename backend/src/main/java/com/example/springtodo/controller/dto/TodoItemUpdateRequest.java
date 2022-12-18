@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TodoItemUpdateRequest {
 
-	@NotBlank
+	@NotBlank(message = "내용은 비어있을 수 없습니다")
 	private String title;
 }

@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
@@ -14,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.example.springtodo.controller.ApiResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtTokenProvider tokenProvider;
+
+	private final ObjectMapper objectMapper;
 	private final static String BEARER_PREFIX = "Bearer ";
 
 	private final static String AUTHORIZATION_HEADER = "Authorization";
@@ -44,7 +51,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.setContext(securityContext);
 			}
 		} catch (Exception e) {
-			log.error("JwtAuthentication Error", e);
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			objectMapper.writeValue(response.getWriter(), ApiResponse.error(e.getMessage(), HttpStatus.FORBIDDEN));
+			// log.error("JwtAuthentication Error", e);
 		}
 		filterChain.doFilter(request, response);
 	}
