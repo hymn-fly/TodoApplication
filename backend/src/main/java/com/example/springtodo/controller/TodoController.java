@@ -3,6 +3,8 @@ package com.example.springtodo.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +42,7 @@ public class TodoController {
 	}
 
 	@PostMapping
-	TodoItemResponse createItem(@AuthenticationPrincipal String userId, @RequestBody TodoItemCreateRequest request) {
+	TodoItemResponse createItem(@AuthenticationPrincipal String userId, @Valid @RequestBody TodoItemCreateRequest request) {
 		TodoItem todoItem = todoService.createItem(request.getTitle(), Integer.valueOf(userId));
 
 		return new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(), todoItem.getId());
@@ -48,7 +50,7 @@ public class TodoController {
 
 	@PutMapping(path = "/{id}")
 	TodoItemResponse updateItem(@AuthenticationPrincipal String userId, @PathVariable Integer id,
-		@RequestBody TodoItemUpdateRequest request) {
+		@Valid @RequestBody TodoItemUpdateRequest request) {
 		TodoItem todoItem = todoService.updateItem(id, Integer.valueOf(userId), request.getTitle());
 
 		return new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(), todoItem.getId());
