@@ -33,33 +33,42 @@ public class TodoController {
 
 	private final TodoService todoService;
 
-	// TODO: 2022/11/24 response의 형태 맞추기(새로운 객체 생성해서 -  eg.ResponseDto)
 	@GetMapping
-	public List<TodoItemResponse> listItems(@AuthenticationPrincipal String userId) {
+	public ApiResponse<TodoItemResponse> listItems(@AuthenticationPrincipal String userId) {
 		List<TodoItem> todoItems = todoService.listItem(Integer.valueOf(userId));
 
-		return todoItems.stream().map(todoItem ->
+		List<TodoItemResponse> responseBody = todoItems.stream().map(todoItem ->
 			new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(), todoItem.getId())
 		).collect(Collectors.toList());
+
+		return ApiResponse.of(responseBody);
 	}
 
 	@PostMapping
-	TodoItemResponse createItem(@AuthenticationPrincipal String userId, @Valid @RequestBody TodoItemCreateRequest request) {
+	public ApiResponse<TodoItemResponse> createItem(@AuthenticationPrincipal String userId, @Valid @RequestBody TodoItemCreateRequest request) {
 		TodoItem todoItem = todoService.createItem(request.getTitle(), Integer.valueOf(userId));
 
-		return new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(), todoItem.getId());
+		TodoItemResponse response = new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(),
+			todoItem.getId());
+
+		return ApiResponse.of(List.of(response));
 	}
 
 	@PutMapping(path = "/{id}")
-	TodoItemResponse updateItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id,
+	public ApiResponse<TodoItemResponse> updateItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id,
 		@Valid @RequestBody TodoItemUpdateRequest request) {
 		TodoItem todoItem = todoService.updateItem(id, Integer.valueOf(userId), request.getTitle());
 
-		return new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(), todoItem.getId());
+		TodoItemResponse response = new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(),
+			todoItem.getId());
+
+		return ApiResponse.of(List.of(response));
 	}
 
 	@DeleteMapping(path = "/{id}")
-	void deleteItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id) {
+	public ApiResponse<?> deleteItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id) {
 		todoService.deleteItem(id, Integer.valueOf(userId));
+
+		return ApiResponse.noContent();
 	}
 }
