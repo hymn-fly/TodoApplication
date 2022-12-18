@@ -45,7 +45,8 @@ public class TodoController {
 	}
 
 	@PostMapping
-	public ApiResponse<TodoItemResponse> createItem(@AuthenticationPrincipal String userId, @Valid @RequestBody TodoItemCreateRequest request) {
+	public ApiResponse<TodoItemResponse> createItem(@AuthenticationPrincipal String userId,
+		@Valid @RequestBody TodoItemCreateRequest request) {
 		TodoItem todoItem = todoService.createItem(request.getTitle(), Integer.valueOf(userId));
 
 		TodoItemResponse response = new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(),
@@ -55,8 +56,11 @@ public class TodoController {
 	}
 
 	@PutMapping(path = "/{id}")
-	public ApiResponse<TodoItemResponse> updateItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id,
-		@Valid @RequestBody TodoItemUpdateRequest request) {
+	public ApiResponse<TodoItemResponse> updateItem(
+		@AuthenticationPrincipal String userId,
+		@PathVariable @Positive(message = "id는 양수여야 합니다") Integer id,
+		@Valid @RequestBody TodoItemUpdateRequest request
+	) {
 		TodoItem todoItem = todoService.updateItem(id, Integer.valueOf(userId), request.getTitle());
 
 		TodoItemResponse response = new TodoItemResponse(todoItem.getTitle(), todoItem.isDone(),
@@ -66,7 +70,10 @@ public class TodoController {
 	}
 
 	@DeleteMapping(path = "/{id}")
-	public ApiResponse<?> deleteItem(@AuthenticationPrincipal String userId, @PathVariable @Positive Integer id) {
+	public ApiResponse<?> deleteItem(
+		@AuthenticationPrincipal String userId,
+		@PathVariable @Positive(message = "id는 양수여야 합니다") Integer id
+	) {
 		todoService.deleteItem(id, Integer.valueOf(userId));
 
 		return ApiResponse.noContent();

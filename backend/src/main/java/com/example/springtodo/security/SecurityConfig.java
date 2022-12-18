@@ -13,6 +13,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	// TODO : OAuth 적용
 	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
 
