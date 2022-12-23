@@ -12,15 +12,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: d68555242b1fd89f57eb
+            clientSecret: 4ead9a6bd7e6a47ff430cc0edd930188419aee48
+
 
 jwt:
   issuer: todo-spring
   secret-key: secretsecret
   expiry-seconds: 3600
-
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        security: DEBUG
-

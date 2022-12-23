@@ -15,6 +15,4 @@ class DemoApplicationTests {
 	void test() {
 		System.out.println(jwtConfigure.getIssuer());
 	}
-
-
 }
